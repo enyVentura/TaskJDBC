@@ -13,20 +13,14 @@ public class Util {
     Connection connection = null;
     public Util() {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+          //  Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             if (!connection.isClosed()) {
                 System.out.println("Соединение установлено");
             }
-        } catch (SQLException | ClassNotFoundException | NoSuchMethodException ex) {
+        } catch (SQLException ex) {
             System.err.println("Не удалось загрузить драйвер!");
             ex.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
         }
     }
 

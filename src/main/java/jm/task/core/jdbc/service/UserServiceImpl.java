@@ -9,7 +9,7 @@ import java.util.List;
 
 public class UserServiceImpl implements UserService {
     public void createUsersTable() {
-        String create = "CREATE TABLE users (id LONG PRIMARY KEY AUTO_INCREMENT NOT NULL , name VARCHAR (20) NOT NULL , lastName VARCHAR (20) NOT NULL , age BYTE)";
+        String create = "CREATE TABLE users (id INT PRIMARY KEY AUTO_INCREMENT NOT NULL , name VARCHAR (20) NOT NULL , lastName VARCHAR (20) NOT NULL , age INT)";
         try {
             PreparedStatement preparedStatement=new Util().getConnection().prepareStatement(create);
             preparedStatement.executeUpdate();
@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public void dropUsersTable() {
-        String drop = "DROP TABLE [IF EXISTS ] users";
+        String drop = "DROP TABLE IF EXISTS users";
         try {
             PreparedStatement preparedStatement=new Util().getConnection().prepareStatement(drop);
             preparedStatement.executeUpdate();
@@ -31,9 +31,12 @@ public class UserServiceImpl implements UserService {
     }
 
     public void saveUser(String name, String lastName, byte age) {
-        String save = "INSERT INTO users (name, lastName, age) VALUES ("+name+", "+lastName+", "+age+")";
+        String save = "INSERT INTO users (name, lastName, age) VALUES (?, ?, ?)";
         try {
             PreparedStatement preparedStatement=new Util().getConnection().prepareStatement(save);
+            preparedStatement.setString(1,name);
+            preparedStatement.setString(2,lastName);
+            preparedStatement.setInt(3,age);
             preparedStatement.executeUpdate();
             preparedStatement.close();
         } catch (SQLException throwables) {
@@ -43,7 +46,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void removeUserById(long id) {
-        String remove = "DELETE FROM users WHERE id=" + id;
+        String remove = "DELETE FROM users WHERE id=" + (int)id;
         try {
             PreparedStatement preparedStatement=new Util().getConnection().prepareStatement(remove);
             preparedStatement.executeUpdate();
@@ -58,7 +61,7 @@ public class UserServiceImpl implements UserService {
         try {
             ResultSet resultSet = new Util().getConnection().createStatement().executeQuery("SELECT * FROM users");
             while (resultSet.next()) {
-                list.add(new User(resultSet.getString("name"), resultSet.getString("lastName"), resultSet.getByte("age")));
+                list.add(new User(resultSet.getString("name"), resultSet.getString("lastName"), (byte) resultSet.getInt("age")));
             }
         } catch (SQLException throwables) {
             System.out.println("Exception getAllUsers");

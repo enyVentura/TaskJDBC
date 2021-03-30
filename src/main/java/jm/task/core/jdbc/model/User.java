@@ -1,13 +1,16 @@
 package jm.task.core.jdbc.model;
+/**
+ * Entity description
+ * @author Eugene Kashitsyn
+ */
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
-@Table
+@Table(name = "person")
 public class User {
     @Id
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     @Column
     private String name;
@@ -16,23 +19,19 @@ public class User {
     private String lastName;
 
     @Column
-    private Byte age;
+    private int age;
 
-    public User() {
-
-    }
-
-    public User(String name, String lastName, Byte age) {
+    public User(String name, String lastName, int age) {
         this.name = name;
         this.lastName = lastName;
         this.age = age;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -52,16 +51,16 @@ public class User {
         this.lastName = lastName;
     }
 
-    public Byte getAge() {
+    public int getAge() {
         return age;
     }
 
-    public void setAge(Byte age) {
+    public void setAge(int age) {
         this.age = age;
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName()+" (id:"+id+" username:"+name+" lastname:"+lastName+" age:"+age+")";
+        return getClass().getSimpleName() + " (id:" + id + " username:" + name + " lastname:" + lastName + " age:" + age + ")";
     }
 }

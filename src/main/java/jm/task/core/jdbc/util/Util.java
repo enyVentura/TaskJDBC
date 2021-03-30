@@ -1,6 +1,9 @@
 package jm.task.core.jdbc.util;
+/**
+ * Connection config
+ * @author Eugene Kashitsyn
+ */
 
-import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -13,7 +16,6 @@ public class Util {
     Connection connection = null;
     public Util() {
         try {
-          //  Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             if (!connection.isClosed()) {
                 System.out.println("Соединение установлено");
@@ -23,7 +25,6 @@ public class Util {
             ex.printStackTrace();
         }
     }
-
     public Connection getConnection() {
         return connection;
     }
